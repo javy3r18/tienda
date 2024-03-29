@@ -6,6 +6,7 @@ import list from '../components/categorias/CategoriaList.vue'
 import ListaProducto from '../components/productos/ProductoList.vue'
 import Register from '../views/RegisterView.vue'
 import Login from '../views/LoginView.vue'
+import ProductoVista from '../components/productos/ProductoVista.vue'
 
 
 const routes = [
@@ -41,6 +42,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/producto-vista',
+    name: 'producto-vista',
+    component: ProductoVista
   }
 ]
 

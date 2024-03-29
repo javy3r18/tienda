@@ -55,6 +55,7 @@
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             type="text"
                             name="nombre"
+                            id="nombre"
                           />
                           <label
                             for="precio"
@@ -67,6 +68,7 @@
                             type="number"
                             step="0.01"
                             name="precio"
+                            id="precio"
                           />
                           <label
                             for="stock"
@@ -78,17 +80,31 @@
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             type="number"
                             name="stock"
+                            id="stock"
                           />
                           <label
-                            for="idmarca"
+                            for="idautor"
                             class="block text-sm font-medium leading-6 text-gray-900"
-                            >Id de marca:</label
+                            >Id de autor:</label
                           >
                           <input
-                            v-model="form.idMarca"
+                            v-model="form.idautor"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             type="number"
                             name="idmarca"
+                            id="idmarca"
+                          />
+                          <label
+                            for="idcategoria"
+                            class="block text-sm font-medium leading-6 text-gray-900"
+                            >Id de categoria:</label
+                          >
+                          <input
+                            v-model="form.idcategoria"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            type="number"
+                            name="idmarca"
+                            id="idmarca"
                           />
                           <label
                             for="image"
@@ -100,6 +116,7 @@
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer bg-gray-50 focus:outline-none "
                             type="file"
                             name="image"
+                            id="image"
                           />
                           
                         </form>
@@ -148,7 +165,8 @@ export default {
         nombre: null,
         precio: null,
         stock: null,
-        idMarca: null,
+        idautor: null,
+        idcategoria: null,
         image: null,
       },
     };
@@ -157,6 +175,10 @@ export default {
   methods: {
     clicked() {
       this.$emit("clicked", false);
+    },
+
+    updateTable(){
+      this.$emit("updateTable")
     },
 
     onFileChange(event) {
@@ -168,13 +190,15 @@ export default {
       formData.append('nombre', this.form.nombre);
       formData.append('precio', this.form.precio);
       formData.append('stock', this.form.stock);
-      formData.append('idmarca', this.form.idMarca);
+      formData.append('idautor', this.form.idautor);
+      formData.append('idcategoria', this.form.idcategoria);
       formData.append('image', this.form.image);
       
       axios.post('http://localhost:8080/api/producto/', formData)
         .then(response => {
           console.log('Producto guardado:', response.data);
-          // Puedes redirigir al usuario a otra página o realizar alguna otra acción
+          this.clicked()
+          this.updateTable()
         })
         .catch(error => {
           console.error('Error al guardar el producto:', error);
