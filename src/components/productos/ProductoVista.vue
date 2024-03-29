@@ -6,7 +6,7 @@
           <div class="slider-box w-full h-full max-lg:mx-auto mx-0">
             <div class="main-img mb-3 min-[400px]:mb-8">
               <img
-                src="https://pagedone.io/asset/uploads/1700472379.png"
+                :src="`http://localhost:8080/` + this.data.image"
                 alt="Summer Travel Bag image"
                 class="max-lg:mx-auto"
               />
@@ -21,7 +21,7 @@
                   <h2
                     class="font-manrope font-bold text-3xl leading-10 text-gray-900 mb-2"
                   >
-                    Yellow Summer Travel Bag
+                    {{this.data.nombre}}
                   </h2>
                   <p class="font-normal text-base text-gray-500">ABS LUGGAGE</p>
                 </div>
@@ -34,7 +34,7 @@
                   <h5
                     class="font-manrope font-semibold text-2xl leading-9 text-gray-900"
                   >
-                    $ 199.00
+                    $ {{this.data.precio}}
                   </h5>
                   
                 </div>
@@ -51,3 +51,24 @@
     </section>
   </div>
 </template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data(){
+    return {
+      data: {},
+    }
+  },
+
+  methods: {
+   
+  },
+
+  created(){
+    this.data = JSON.parse(this.$route.params.producto);
+  },
+}
+
+</script>

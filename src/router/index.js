@@ -44,7 +44,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/producto-vista',
+    path: '/producto-vista/:producto',
     name: 'producto-vista',
     component: ProductoVista
   }
