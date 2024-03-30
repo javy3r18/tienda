@@ -23,16 +23,19 @@
                 Nombre
               </th>
               <th class="p-3 text-sm font-semibold tracking-wide text-left">
+                Descripcion
+              </th>
+              <th class="p-3 text-sm font-semibold tracking-wide text-left">
                 Precio
               </th>
               <th class="p-3 text-sm font-semibold tracking-wide text-left">
                 Stock
               </th>
               <th class="p-3 text-sm font-semibold tracking-wide text-left">
-                Idautor
+                Id Autor
               </th>
               <th class="p-3 text-sm font-semibold tracking-wide text-left">
-                idcategoria
+                Id Categoria
               </th>
               <th class="p-3 text-sm font-semibold tracking-wide text-left">
                 Image name
@@ -49,6 +52,7 @@
             <tr v-for="p in productos" :key="p.id">
               <td class="p-3 text-small text-gray-700">{{ p.id }}</td>
               <td class="p-3 text-small text-gray-700">{{ p.nombre }}</td>
+              <td class="p-3 text-small text-gray-700">{{ p.descripcion }}</td>
               <td class="p-3 text-small text-gray-700">$ {{ p.precio }}</td>
               <td class="p-3 text-small text-gray-700">{{ p.stock }}</td>
               <td class="p-3 text-small text-gray-700">{{ p.idautor }}</td>

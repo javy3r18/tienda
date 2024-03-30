@@ -47,7 +47,8 @@ const routes = [
     path: '/producto-vista/:producto',
     name: 'producto-vista',
     component: ProductoVista
-  }
+  },
+
 ]
 
 const router = createRouter({

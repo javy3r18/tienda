@@ -11,11 +11,11 @@
         <div v-for="producto in productos" :key="producto.id">
           <a  @click="showProducto(producto)" class="group">
             <div
-              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100 xl:aspect-h-8 xl:aspect-w-7"
+              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
             >
               <img
                 :src="`http://localhost:8080/` + producto.image"
-                class="h-full w-full object-cover object-center group-hover:opacity-75"
+                class="h-[350px] object-cover object-center group-hover:opacity-75"
               />
             </div>
             <h3 class="mt-4 text-sm text-gray-700">{{ producto.nombre }}</h3>

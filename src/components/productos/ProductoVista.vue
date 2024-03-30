@@ -19,11 +19,19 @@
               <div class="flex items-center justify-between gap-6 mb-6">
                 <div class="text">
                   <h2
-                    class="font-manrope font-bold text-3xl leading-10 text-gray-900 mb-2"
+                    class="font-manrope font-bold text-5xl leading-10 text-gray-900 mb-2"
                   >
-                    {{this.data.nombre}}
+                    {{ this.data.nombre }}
                   </h2>
-                  <p class="font-normal text-base text-gray-500">ABS LUGGAGE</p>
+                  <p class="font-normal text-base text-gray-500">
+                    {{ this.data.descripcion }}
+                  </p>
+                  <p class="mt-4 font-normal text-lg">
+                    <b>Autor: </b>{{ this.autor.autor}}
+                  </p>
+                  <p class="mt-4 font-normal text-lg">
+                    <b>En stock: </b>{{ this.data.stock }}
+                  </p>
                 </div>
               </div>
 
@@ -34,16 +42,42 @@
                   <h5
                     class="font-manrope font-semibold text-2xl leading-9 text-gray-900"
                   >
-                    $ {{this.data.precio}}
+                    $ {{ this.data.precio }} MXN
                   </h5>
-                  
+                 
                 </div>
               </div>
-              <button
-                class="text-center w-full px-5 py-4 rounded-[100px] bg-indigo-600 flex items-center justify-center font-semibold text-lg text-white shadow-sm shadow-transparent transition-all duration-500 hover:bg-indigo-700 hover:shadow-indigo-300"
-              >
-                Buy Now
-              </button>
+              <div v-if="!paidFor">
+                <button
+                  :disabled="disabled"
+                  @click="toggleCollapse"
+                  :class="
+                    this.disabled
+                      ? ' opacity-50 cursor-not-allowed text-center w-full px-5 py-4 rounded-[100px] bg-indigo-600 flex items-center justify-center font-semibold text-lg text-white shadow-sm shadow-transparent'
+                      : 'text-center w-full px-5 py-4 rounded-[100px] bg-indigo-600 flex items-center justify-center font-semibold text-lg text-white shadow-sm shadow-transparent transition-all duration-500 hover:bg-indigo-700 hover:shadow-indigo-300'
+                  "
+                >
+                  {{ collapsed ? "Comprar" : "Cancelar" }}
+                </button>
+
+                <div>
+                  <transition
+                    enter-active-class="ease-out duration-300"
+                    enter-class="opacity-0"
+                    enter-to-class="opacity-100"
+                    leave-active-class="ease-in duration-200"
+                    leave-class="opacity-100"
+                    leave-to-class="opacity-0"
+                  >
+                    <div v-show="!collapsed" class="mt-5" ref="paypal"></div>
+                  </transition>
+                </div>
+              </div>
+
+              <div v-if="paidFor">
+                <h2 class="font-manrope font-semibold text-2xl leading-9 text-green-600"> ¡Pago realizado con exito!</h2>
+              </div>
+
             </div>
           </div>
         </div>
@@ -56,19 +90,95 @@
 import axios from 'axios';
 
 export default {
-  data(){
+  data() {
     return {
-      data: {},
-    }
+      data: null,
+      autor: {},
+      collapsed: true,
+      paidFor: false,
+      disabled: false,
+    };
   },
 
   methods: {
-   
+    setLoaded: function () {
+      this.loaded = true;
+      window.paypal
+        .Buttons({
+          createOrder: (data, actions) => {
+            console.log("Datos del formulario:", this.form);
+            return actions.order.create({
+              purchase_units: [
+                {
+                  description: this.data.descripcion,
+                  amount: {
+                    value: this.data.precio,
+                  },
+                },
+              ],
+            });
+          },
+          onApprove: async (data, actions) => {
+            const order = await actions.order.capture();
+            this.paidFor = true;
+            this.data.stock = this.data.stock - 1
+            const newStock = this.data.stock
+            this.updateStock(newStock)
+            console.log(order);
+          },
+          onError: (err) => {
+            console.log(err);
+          },
+        })
+        .render(this.$refs.paypal);
+    },
+
+    toggleCollapse() {
+      this.collapsed = !this.collapsed;
+    },
+
+    updateStock(newStock) {
+      
+      axios.put(`http://localhost:8080/api/producto/${this.data.id}`, {"stock": newStock})
+        .then(response => {
+          console.log('Producto actualizado:', response.data);
+          setTimeout(this.goToStore, 1500)
+        })
+        .catch(error => {
+          console.error('Error al guardar el producto:', error);
+        });
+    },
+
+    getAutor(){
+      try {
+        axios.get(`http://localhost:8080/api/getAutores/${this.data.idautor}`).then((res) => {
+          this.autor = res.data;
+          console.log(res);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    goToStore(){
+      this.$router.push('/store');
+    }
   },
 
-  created(){
+  created() {
     this.data = JSON.parse(this.$route.params.producto);
+    this.getAutor();
+    if (this.data.stock == 0) {
+      this.disabled = true;
+    }
   },
-}
 
+  mounted() {
+    const script = document.createElement("script");
+    script.src =
+      "https://www.paypal.com/sdk/js?client-id=AYJbbHLDLdmskXq-G6ihx1IR0lYolHr1jp8YFfaFNlwdIUdX1DHIZdPZirPG0uEmLPEUK6xDk5dVDVlp&currency=MXN";
+    script.addEventListener("load", this.setLoaded);
+    document.body.appendChild(script);
+  },
+};
 </script>

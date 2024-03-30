@@ -58,6 +58,18 @@
                             id="nombre"
                           />
                           <label
+                            for="descripcion"
+                            class="block text-sm font-medium leading-6 text-gray-900"
+                            >Descripcion del producto:</label
+                          >
+                          <input
+                            v-model="form.descripcion"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            type="text"
+                            name="descripcion"
+                            id="descripcion"
+                          />
+                          <label
                             for="precio"
                             class="block text-sm font-medium leading-6 text-gray-900"
                             >Precio:</label
@@ -163,6 +175,7 @@ export default {
     return {
       form: {
         nombre: null,
+        descripcion: null,
         precio: null,
         stock: null,
         idautor: null,
@@ -188,6 +201,7 @@ export default {
     submitForm() {
       const formData = new FormData();
       formData.append('nombre', this.form.nombre);
+      formData.append('descripcion', this.form.descripcion);
       formData.append('precio', this.form.precio);
       formData.append('stock', this.form.stock);
       formData.append('idautor', this.form.idautor);
