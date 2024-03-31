@@ -100,7 +100,6 @@ export default {
       try {
         axios.get("http://localhost:8080/api/getProductos/").then((res) => {
           this.productos = res.data;
-          console.log(res);
         });
       } catch (error) {
         console.error(error);

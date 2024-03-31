@@ -27,7 +27,7 @@
                     {{ this.data.descripcion }}
                   </p>
                   <p class="mt-4 font-normal text-lg">
-                    <b>Autor: </b>{{ this.autor.autor}}
+                    <b>Autor: </b>{{ this.autor.autor }}
                   </p>
                   <p class="mt-4 font-normal text-lg">
                     <b>En stock: </b>{{ this.data.stock }}
@@ -44,7 +44,6 @@
                   >
                     $ {{ this.data.precio }} MXN
                   </h5>
-                 
                 </div>
               </div>
               <div v-if="!paidFor">
@@ -75,9 +74,12 @@
               </div>
 
               <div v-if="paidFor">
-                <h2 class="font-manrope font-semibold text-2xl leading-9 text-green-600"> ¡Pago realizado con exito!</h2>
+                <h2
+                  class="font-manrope font-semibold text-2xl leading-9 text-green-600"
+                >
+                  ¡Pago realizado con exito!
+                </h2>
               </div>
-
             </div>
           </div>
         </div>
@@ -87,7 +89,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
@@ -121,10 +123,10 @@ export default {
           onApprove: async (data, actions) => {
             const order = await actions.order.capture();
             this.paidFor = true;
-            this.data.stock = this.data.stock - 1
-            const newStock = this.data.stock
-            this.updateStock(newStock)
-            console.log(order);
+            this.data.stock = this.data.stock - 1;
+            this.updateStock(this.data.stock);
+            this.crearRecibo(order);
+            this.addVenta();
           },
           onError: (err) => {
             console.log(err);
@@ -138,31 +140,74 @@ export default {
     },
 
     updateStock(newStock) {
-      
-      axios.put(`http://localhost:8080/api/producto/${this.data.id}`, {"stock": newStock})
-        .then(response => {
-          console.log('Producto actualizado:', response.data);
+      axios
+        .put(`http://localhost:8080/api/producto/${this.data.id}`, {
+          stock: newStock,
+        })
+        .then((response) => {
+          console.log("Producto actualizado:", response.data);
           setTimeout(this.goToStore, 1500)
         })
-        .catch(error => {
-          console.error('Error al guardar el producto:', error);
+        .catch((error) => {
+          console.error("Error al guardar el producto:", error);
         });
     },
 
-    getAutor(){
+    getAutor() {
       try {
-        axios.get(`http://localhost:8080/api/getAutores/${this.data.idautor}`).then((res) => {
-          this.autor = res.data;
-          console.log(res);
-        });
+        axios
+          .get(`http://localhost:8080/api/getAutores/${this.data.idautor}`)
+          .then((res) => {
+            this.autor = res.data;
+            console.log(res);
+          });
       } catch (error) {
         console.error(error);
       }
     },
 
-    goToStore(){
-      this.$router.push('/store');
-    }
+    crearRecibo(order) {
+      const address = order.purchase_units[0].shipping.address;
+      const direccionString = Object.values(address).join(", ");
+
+      const reciboData = {
+        fecha: order.create_time,
+        descripcion: order.purchase_units[0].description,
+        precio: order.purchase_units[0].amount.value,
+        nombre: order.purchase_units[0].shipping.name.full_name,
+        direccion: direccionString
+      }
+
+      axios
+        .post("http://localhost:8080/api/recibo/", reciboData)
+        .then((response) => {
+          console.log("Recibo creado:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error al guardar el Recibo:", error);
+        });
+    },
+
+    addVenta(){
+      const ventaData = {
+        nombreproducto: this.data.nombre,
+        precio: this.data.precio,
+        idautor: this.data.idautor,
+        idcategoria: this.data.idcategoria
+      }
+      axios
+        .post("http://localhost:8080/api/venta/", ventaData)
+        .then((response) => {
+          console.log("Venta creada:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error al guardar la venta:", error);
+        });
+    },
+
+    goToStore() {
+      this.$router.push("/store");
+    },
   },
 
   created() {

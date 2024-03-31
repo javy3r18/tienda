@@ -207,7 +207,6 @@ export default {
       formData.append('idautor', this.form.idautor);
       formData.append('idcategoria', this.form.idcategoria);
       formData.append('image', this.form.image);
-      
       axios.post('http://localhost:8080/api/producto/', formData)
         .then(response => {
           console.log('Producto guardado:', response.data);

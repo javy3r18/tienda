@@ -7,6 +7,7 @@ import ListaProducto from '../components/productos/ProductoList.vue'
 import Register from '../views/RegisterView.vue'
 import Login from '../views/LoginView.vue'
 import ProductoVista from '../components/productos/ProductoVista.vue'
+import Dashboard from '@/components/ventas/Dashboard.vue'
 
 
 const routes = [
@@ -47,6 +48,11 @@ const routes = [
     path: '/producto-vista/:producto',
     name: 'producto-vista',
     component: ProductoVista
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: Dashboard
   },
 
 ]
