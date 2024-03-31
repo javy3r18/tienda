@@ -1,6 +1,8 @@
 <template>
   <div>
-    <canvas id="graficoBarras" width="400" height="400"></canvas>
+    <div class="mt-10 flex justify-center" >
+        <canvas class="max-w-7xl" id="graficoBarras" width="400" height="400"></canvas>
+    </div>
   </div>
 </template>
 
@@ -31,6 +33,7 @@ export default {
       try {
         axios.get("http://localhost:8080/api/getCategorias/").then((res) => {
           this.categorias = res.data;
+          console.log(this.categorias);
           this.getVentasCategoria();
         });
       } catch (error) {
