@@ -2,59 +2,62 @@ import { createRouter, createWebHistory } from 'vue-router'
 import {getAuth, onAuthStateChanged } from "firebase/auth"
 import HomeView from '../views/HomeView.vue'
 import TiendaView from '../views/TiendaView.vue'
-import list from '../components/categorias/CategoriaList.vue'
-import ListaProducto from '../components/productos/ProductoList.vue'
 import Register from '../views/RegisterView.vue'
 import Login from '../views/LoginView.vue'
 import ProductoVista from '../components/productos/ProductoVista.vue'
-import Dashboard from '@/components/ventas/Dashboard.vue'
-
+import AdminView from '@/views/AdminView.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
   },
   {
     path: '/store',
     name: 'store',
     component: TiendaView,
     meta : {
-      requiresAuth: true
+      requiresAuth: true,
     }
-  },
-  {
-    path: '/listCategoria',
-    name: 'listCategoria',
-    component: list,
-  },
-  {
-    path: '/listProducto',
-    name: 'listProducto',
-    component: ListaProducto
   },
   {
     path: '/register',
     name: 'register',
-    component: Register
+    component: Register,
+    meta: {
+      showNavbar: true,
+      showFooter: false
+    }
+
   },
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: Login,
+    meta: {
+      showNavbar: true,
+      showFooter: false
+    }
   },
   {
     path: '/producto-vista/:producto',
     name: 'producto-vista',
-    component: ProductoVista
+    component: ProductoVista,
+    meta: {
+      showNavbar: true,
+      showFooter: true
+    }
   },
   {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: Dashboard
+    path: '/admin',
+    name: 'admin',
+    component: AdminView,
+    meta: {
+      showNavbar: true,
+      showFooter: false // No mostrar el footer en esta vista
+    }
   },
-
 ]
 
 const router = createRouter({

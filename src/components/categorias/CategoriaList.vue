@@ -1,12 +1,18 @@
 <template>
   <div>
-    <h2>Lista de categorias</h2>
+    <h2 class="block text-center mb-4">Lista de categorias</h2>
 
-    <div>
-      <div>
-        <router-link to="/"> Crear categoria </router-link>
+    <div class="w-full flex justify-center items-center flex-col">
+      <div class="mb-4">
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          type="button"
+          @click="modalOpen"
+        >
+          Crear Categoria
+        </button>
       </div>
-      <div>
+      <div class="w-full max-w-7xl mb-10">
         <table class="w-full">
           <thead class="bg-gray-50 border-b-2 border-gray-200">
             <tr>
@@ -14,21 +20,18 @@
                 Clave categoria
               </th>
               <th class="p-3 text-sm font-semibold tracking-wide text-left">
-                categoria
+                Categoria
               </th>
               <th class="p-3 text-sm font-semibold tracking-wide text-left">
-                Accion
+                Acciones
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="c in categorias" :key="c.idCategoria">
-              <td class="p-3 text-small text-gray-700">{{ c.idcategoria }}</td>
+            <tr v-for="c in categorias" :key="c.id">
+              <td class="p-3 text-small text-gray-700">{{ c.id }}</td>
               <td class="p-3 text-small text-gray-700">{{ c.categoria }}</td>
               <td class="p-3 text-small text-gray-700">
-                <button type="button" @click="modalOpen(c.idcategoria)">
-                  Mostrar
-                </button>
                 <router-link to="/"> Editar</router-link>
                 <button type="">Eliminar</button>
               </td>
@@ -38,45 +41,48 @@
       </div>
     </div>
 
-    <CategoriaModal :modal="modal" :id="idCategoriaSel"></CategoriaModal>
-
+    <CrearCategoria :modal="modal" @clicked="modalClose" @updateTable="loadTable"></CrearCategoria>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import CategoriaModal from "./CategoriaModal.vue";
+import CrearCategoria from "./CrearCategoriaForm.vue"
 
 export default {
-  name: "CategoriaList",
-
   data() {
     return {
       modal: false,
       categorias: [],
-      idCategoriaSel: null,
     };
   },
 
   components: {
-    CategoriaModal
+    CrearCategoria,
   },
 
   methods: {
-    modalOpen(id){
+    loadTable() {
+      try {
+        axios.get("http://localhost:8080/api/getCategorias/").then((res) => {
+          this.categorias = res.data;
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    modalOpen() {
       this.modal = true;
-      this.idCategoriaSel = id
-    }
+    },
+
+    modalClose(value) {
+      this.modal = value;
+    },
   },
 
   mounted() {
-    try {
-      axios.get("http://localhost:8080/api/getCategorias/").then((res) => {
-      this.categorias = res.data;
-    });
-    } catch (error) {
-      console.error(error)
-    }
+    this.loadTable()
   },
 };
 </script>
