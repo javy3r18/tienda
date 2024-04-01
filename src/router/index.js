@@ -6,6 +6,7 @@ import Register from '../views/RegisterView.vue'
 import Login from '../views/LoginView.vue'
 import ProductoVista from '../components/productos/ProductoVista.vue'
 import AdminView from '@/views/AdminView.vue'
+import LandingPage from '@/views/LandingPage.vue'
 
 const routes = [
   {
@@ -19,6 +20,15 @@ const routes = [
     component: TiendaView,
     meta : {
       requiresAuth: true,
+    }
+  },
+
+  {
+    path: '/landing-page',
+    name: 'landing-page',
+    component: LandingPage,
+    meta: {
+      showFooter: false
     }
   },
   {
