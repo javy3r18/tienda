@@ -7,13 +7,14 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@firebase/firestore": "^4.5.1",
     "@headlessui/vue": "^1.7.19",
     "@heroicons/vue": "^2.1.1",
     "autoprefixer": "^10",
     "axios": "^1.6.7",
     "chart.js": "^3.9.1",
     "core-js": "^3.8.3",
-    "firebase": "^10.9.0",
+    "firebase": "^10.10.0",
     "postcss": "^8",
     "register-service-worker": "^1.7.2",
     "sweetalert2": "^11.10.6",

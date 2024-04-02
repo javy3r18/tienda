@@ -1,104 +1,150 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import {getAuth, onAuthStateChanged } from "firebase/auth"
-import HomeView from '../views/HomeView.vue'
-import TiendaView from '../views/TiendaView.vue'
-import Register from '../views/RegisterView.vue'
-import Login from '../views/LoginView.vue'
-import ProductoVista from '../components/productos/ProductoVista.vue'
-import AdminView from '@/views/AdminView.vue'
-import LandingPage from '@/views/LandingPage.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, collection, getDocs } from "@firebase/firestore";
+import HomeView from "../views/HomeView.vue";
+import TiendaView from "../views/TiendaView.vue";
+import Register from "../views/RegisterView.vue";
+import Login from "../views/LoginView.vue";
+import ProductoVista from "../components/productos/ProductoVista.vue";
+import AdminView from "@/views/AdminView.vue";
+import LandingPage from "@/views/LandingPage.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
+    path: "/",
+    name: "home",
     component: HomeView,
   },
   {
-    path: '/store',
-    name: 'store',
+    path: "/store",
+    name: "store",
     component: TiendaView,
-    meta : {
+    meta: {
       requiresAuth: true,
-    }
+    },
   },
 
   {
-    path: '/landing-page',
-    name: 'landing-page',
+    path: "/landing-page",
+    name: "landing-page",
     component: LandingPage,
     meta: {
-      showFooter: false
-    }
+      showFooter: false,
+    },
   },
   {
-    path: '/register',
-    name: 'register',
+    path: "/register",
+    name: "register",
     component: Register,
     meta: {
       showNavbar: true,
-      showFooter: false
-    }
-
+      showFooter: false,
+    },
   },
   {
-    path: '/login',
-    name: 'login',
+    path: "/login",
+    name: "login",
     component: Login,
     meta: {
       showNavbar: true,
-      showFooter: false
-    }
+      showFooter: false,
+    },
   },
   {
-    path: '/producto-vista/:producto',
-    name: 'producto-vista',
+    path: "/producto-vista/:producto",
+    name: "producto-vista",
     component: ProductoVista,
     meta: {
       showNavbar: true,
-      showFooter: true
-    }
+      showFooter: true,
+    },
   },
   {
-    path: '/admin',
-    name: 'admin',
+    path: "/admin",
+    name: "admin",
     component: AdminView,
     meta: {
       showNavbar: true,
-      showFooter: false // No mostrar el footer en esta vista
-    }
+      showFooter: false,
+      requiresAuth: true
+    },
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
 const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const removeListener = onAuthStateChanged(
-      getAuth(), 
+      getAuth(),
       (user) => {
         removeListener();
         resolve(user);
+        console.log(user);
       },
       reject
-    )
-  })
-}
+    );
+  });
+};
 
-router.beforeEach(async (to, from, next) =>{
-  if(to.matched.some((record) => record.meta.requiresAuth)) {
-    if(await getCurrentUser()) {
+router.beforeEach(async (to, from, next) => {
+  const user = await getCurrentUser();
+
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (user) {
+      // Si hay un usuario logeado, permitir el acceso
       next();
-    }else{
-      alert("You are not logged in")
-      next("/");
+    } else {
+      // Si no hay usuario logeado, redirigir al inicio de sesión
+      alert("You are not logged in");
+      next("/login");
     }
-  }else{
+  } else {
+    // Si la ruta no requiere autenticación, simplemente dejar pasar
     next();
   }
-})
+});
 
-export default router
+router.beforeEach(async (to, from, next) => {
+  const user = await getCurrentUser();
+
+  if (to.meta.requiresAuth && user) {
+    const db = getFirestore();
+    const colRef = collection(db, "usuarios");
+
+    try {
+      const snapshot = await getDocs(colRef);
+      const adminData = snapshot.docs[0].data();
+      console.log(user.email);
+      console.log(adminData.email);
+
+      if (to.name === "admin" && user.email === adminData.email && adminData.isAdmin) {
+        // Si el usuario es un administrador, permitir acceso
+        next();
+      } else if (to.name === "admin") {
+        // Si el usuario no es un administrador, redirigir a la página de inicio
+        alert("User not allowed to");
+        next({ name: 'home' });
+      } else {
+        // Permitir el acceso a otras rutas que requieren autenticación
+        next();
+      }
+    } catch (error) {
+      console.error("Error getting admin data:", error);
+      next("/");
+    }
+  } else {
+    // Permitir el acceso a otras rutas que no requieren autenticación
+    next();
+  }
+});
+
+
+
+
+
+
+export default router;
