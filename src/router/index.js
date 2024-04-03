@@ -83,7 +83,6 @@ const getCurrentUser = () => {
       (user) => {
         removeListener();
         resolve(user);
-        console.log(user);
       },
       reject
     );
@@ -118,8 +117,6 @@ router.beforeEach(async (to, from, next) => {
     try {
       const snapshot = await getDocs(colRef);
       const adminData = snapshot.docs[0].data();
-      console.log(user.email);
-      console.log(adminData.email);
 
       if (to.name === "admin" && user.email === adminData.email && adminData.isAdmin) {
         // Si el usuario es un administrador, permitir acceso

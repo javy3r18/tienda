@@ -127,6 +127,7 @@ export default {
             this.updateStock(this.data.stock);
             this.crearRecibo(order);
             this.addVenta();
+            console.log(order);
           },
           onError: (err) => {
             console.log(err);
@@ -159,7 +160,6 @@ export default {
           .get(`http://localhost:8080/api/getAutores/${this.data.idautor}`)
           .then((res) => {
             this.autor = res.data;
-            console.log(res);
           });
       } catch (error) {
         console.error(error);
