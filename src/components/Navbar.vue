@@ -5,11 +5,11 @@
         <img src="../assets/V-ART.png">
       </div>
       <div>
-        <router-link class="hover:underline" to="/">Home |</router-link> 
-        <router-link class="hover:underline" to="/store"> Store |</router-link> 
-        <router-link class="hover:underline" to="/admin"> Admin |</router-link> 
-        <router-link v-if="!isLoggedIn" class="hover:underline" to="/login"> Login |</router-link> 
-        <router-link class="hover:underline" to="/register"> Register </router-link> 
+        <router-link class="hover:underline" to="/">Home </router-link> 
+        <router-link class="hover:underline" to="/store">| Store </router-link> 
+        <router-link v-if="isLoggedIn" class="hover:underline" to="/admin">| Admin </router-link> 
+        <router-link v-if="!isLoggedIn" class="hover:underline" to="/login">| Login </router-link> 
+        <router-link v-if="!isLoggedIn" class="hover:underline" to="/register">| Register </router-link> 
         <button v-if="isLoggedIn" class="hover:underline" @click="handleSignOut">| Sign out</button>
       </div>
     </div>

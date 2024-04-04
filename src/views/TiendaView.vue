@@ -35,6 +35,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      idcategoria: null,
       productos: [],
     };
   },
@@ -51,13 +52,31 @@ export default {
       }
     },
 
+    getProductosPorCategoria(idcategoria) {
+      try {
+        axios.get(`http://localhost:8080/api/getProductos/categoria/${idcategoria}`).then((res) => {
+          this.productos = res.data;
+          console.log(res);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     showProducto(producto){
       this.$router.push({ name: 'producto-vista', params: { producto: JSON.stringify(producto)  } });
     }
   },
 
   mounted() {
-    this.getProductos();
+    const idcategoria = this.$route.params.id
+    console.log(idcategoria);
+    if(idcategoria){
+      this.getProductosPorCategoria(idcategoria)
+    }else{
+      this.getProductos();
+    }
+    
   },
 };
 </script>

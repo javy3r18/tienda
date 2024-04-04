@@ -91,7 +91,7 @@ export default {
           labels: etiquetasMeses,
           datasets: [
             {
-              label: "Ventas por mes",
+              label: "Ventas Mensuales",
               backgroundColor: "#36A2EB", 
               data: datosVentasMeses,
             },

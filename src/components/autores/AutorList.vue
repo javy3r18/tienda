@@ -7,7 +7,7 @@
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             type="button"
-            @click="modalOpen"
+            @click="modalCreateOpen"
           >
             Crear Autor
           </button>
@@ -40,8 +40,8 @@
                 <td class="p-3 text-small text-gray-700">{{ a.nacionalidad }}</td>
                 <td class="p-3 text-small text-gray-700">{{ a.correo }}</td>
                 <td class="p-3 text-small text-gray-700">
-                  <router-link to="/"> Editar</router-link>
-                  <button type="">Eliminar</button>
+                  <button @click="modalUpdateOpen(a)">Editar</button>
+                  <button @click="deleteAutor(a.id)">Eliminar</button>
                 </td>
               </tr>
             </tbody>
@@ -49,24 +49,29 @@
         </div>
       </div>
   
-      <CrearAutor :modal="modal" @clicked="modalClose" @updateTable="loadTable"></CrearAutor>
+      <CrearAutor :modal="modalCreate" @clicked="modalClose" @updateTable="loadTable"></CrearAutor>
+      <EditarAutor :modal="modalUpdate" :data="beforeUpdateData" @clicked="modalClose" @updateTable="loadTable"></EditarAutor>
     </div>
   </template>
   
   <script>
   import axios from "axios";
   import CrearAutor from "./CrearAutorForm.vue"
+  import EditarAutor from './EditarAutorForm.vue'
   
   export default {
     data() {
       return {
-        modal: false,
+        modalCreate: false,
+        modalUpdate: false,
+        beforeUpdateData: {},
         autores: [],
       };
     },
   
     components: {
       CrearAutor,
+      EditarAutor,
     },
   
     methods: {
@@ -80,13 +85,34 @@
         }
       },
   
-      modalOpen() {
-        this.modal = true;
-      },
-  
-      modalClose(value) {
-        this.modal = value;
-      },
+      modalCreateOpen() {
+      this.modalCreate = true;
+    },
+
+    modalUpdateOpen(data){
+      this.beforeUpdateData = data
+      this.modalUpdate = true;
+    },
+
+    modalClose(value) {
+      this.modalCreate = value;
+      this.modalUpdate = value;
+    },
+
+    deleteAutor(idautor){
+      
+      let confirmar = confirm("Seguro de eliminar este autor?")
+      if (confirmar) {
+        try {
+        axios.delete(`http://localhost:8080/api/autor/${idautor}`).then((res) => {
+          alert("Autor eliminado con exito")
+          this.loadTable()
+        });
+      } catch (error) {
+        console.error(error);
+      }
+      }
+    }
     },
   
     mounted() {

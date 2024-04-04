@@ -8,6 +8,7 @@ import Login from "../views/LoginView.vue";
 import ProductoVista from "../components/productos/ProductoVista.vue";
 import AdminView from "@/views/AdminView.vue";
 import LandingPage from "@/views/LandingPage.vue";
+import DashboardVR from "@/views/DashboardVR.vue";
 
 const routes = [
   {
@@ -16,7 +17,7 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/store",
+    path: "/store/:id?",
     name: "store",
     component: TiendaView,
     meta: {
@@ -49,6 +50,12 @@ const routes = [
       showNavbar: true,
       showFooter: false,
     },
+  },
+  {
+    path: "/dashboardVR",
+    name: "dashboardVR",
+    component: DashboardVR,
+    
   },
   {
     path: "/producto-vista/:producto",

@@ -7,7 +7,7 @@
         <button
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           type="button"
-          @click="modalOpen"
+          @click="modalCreateOpen"
         >
           Crear producto
         </button>
@@ -66,8 +66,8 @@
                 />
               </td>
               <td class="p-3 text-small text-gray-700">
-                <router-link to="/"> Editar</router-link>
-                <button type="">Eliminar</button>
+                <button @click="modalUpdateOpen(p)">Editar</button>
+                <button @click="deleteProducto(p.id)">Eliminar</button>
               </td>
             </tr>
           </tbody>
@@ -75,24 +75,29 @@
       </div>
     </div>
 
-    <CrearProductos :modal="modal" @clicked="modalClose" @updateTable="loadTable"></CrearProductos>
+    <CrearProductos :modal="modalCreate" @clicked="modalClose" @updateTable="loadTable"></CrearProductos>
+    <EditarProductos :modal="modalUpdate" :data="beforeUpdateData" @clicked="modalClose" @updateTable="loadTable"></EditarProductos>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import CrearProductos from "./CrearProductosForm.vue";
+import EditarProductos from './EditarProductosForm.vue'
 
 export default {
   data() {
     return {
-      modal: false,
+      modalCreate: false,
+      modalUpdate: false,
+      beforeUpdateData: {},
       productos: [],
     };
   },
 
   components: {
     CrearProductos,
+    EditarProductos,
   },
 
   methods: {
@@ -106,13 +111,34 @@ export default {
       }
     },
 
-    modalOpen() {
-      this.modal = true;
+    modalCreateOpen() {
+      this.modalCreate = true;
+    },
+
+    modalUpdateOpen(data){
+      this.beforeUpdateData = data
+      this.modalUpdate = true;
     },
 
     modalClose(value) {
-      this.modal = value;
+      this.modalCreate = value;
+      this.modalUpdate = value;
     },
+
+    deleteProducto(idproducto){
+      
+      let confirmar = confirm("Seguro de eliminar este producto?")
+      if (confirmar) {
+        try {
+        axios.delete(`http://localhost:8080/api/producto/${idproducto}`).then((res) => {
+          alert("Producto eliminado con exito")
+          this.loadTable()
+        });
+      } catch (error) {
+        console.error(error);
+      }
+      }
+    }
   },
 
   mounted() {
