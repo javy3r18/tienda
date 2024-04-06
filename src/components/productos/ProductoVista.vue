@@ -6,7 +6,7 @@
           <div class="slider-box w-full h-full max-lg:mx-auto mx-0">
             <div class="main-img mb-3 min-[400px]:mb-8">
               <img
-                :src="`http://localhost:8080/` + this.data.image"
+                :src="`http://localhost:8080/` + this.producto.image"
                 alt="Summer Travel Bag image"
                 class="max-lg:mx-auto"
               />
@@ -21,16 +21,16 @@
                   <h2
                     class="font-manrope font-bold text-5xl leading-10 text-gray-900 mb-2"
                   >
-                    {{ this.data.nombre }}
+                    {{ this.producto.nombre }}
                   </h2>
                   <p class="font-normal text-base text-gray-500">
-                    {{ this.data.descripcion }}
+                    {{ this.producto.descripcion }}
                   </p>
                   <p class="mt-4 font-normal text-lg">
                     <b>Autor: </b>{{ this.autor.autor }}
                   </p>
                   <p class="mt-4 font-normal text-lg">
-                    <b>En stock: </b>{{ this.data.stock }}
+                    <b>En stock: </b>{{ this.producto.stock }}
                   </p>
                 </div>
               </div>
@@ -42,7 +42,7 @@
                   <h5
                     class="font-manrope font-semibold text-2xl leading-9 text-gray-900"
                   >
-                    $ {{ this.data.precio }} MXN
+                    $ {{ this.producto.precio }} MXN
                   </h5>
                 </div>
               </div>
@@ -94,7 +94,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      data: null,
+      idproducto: null,
+      producto: {},
       autor: {},
       collapsed: true,
       paidFor: false,
@@ -112,9 +113,9 @@ export default {
             return actions.order.create({
               purchase_units: [
                 {
-                  description: this.data.descripcion,
+                  description: this.producto.descripcion,
                   amount: {
-                    value: this.data.precio,
+                    value: this.producto.precio,
                   },
                 },
               ],
@@ -123,8 +124,8 @@ export default {
           onApprove: async (data, actions) => {
             const order = await actions.order.capture();
             this.paidFor = true;
-            this.data.stock = this.data.stock - 1;
-            this.updateStock(this.data.stock);
+            this.producto.stock = this.producto.stock - 1;
+            this.updateStock(this.producto.stock);
             this.crearRecibo(order);
             this.addVenta();
             console.log(order);
@@ -142,22 +143,38 @@ export default {
 
     updateStock(newStock) {
       axios
-        .put(`http://localhost:8080/api/producto/${this.data.id}`, {
+        .put(`http://localhost:8080/api/producto/${this.producto.id}`, {
           stock: newStock,
         })
         .then((response) => {
           console.log("Producto actualizado:", response.data);
-          setTimeout(this.goToStore, 1500)
         })
         .catch((error) => {
           console.error("Error al guardar el producto:", error);
         });
     },
 
+    getProducto() {
+      try {
+        axios
+          .get(`http://localhost:8080/api/getProductos/${this.idproducto}`)
+          .then((res) => {
+            this.producto = res.data
+            console.log(this.producto);
+            if (this.producto.stock == 0) {
+              this.disabled = true;
+            }
+            this.getAutor();
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     getAutor() {
       try {
         axios
-          .get(`http://localhost:8080/api/getAutores/${this.data.idautor}`)
+          .get(`http://localhost:8080/api/getAutores/${this.producto.idautor}`)
           .then((res) => {
             this.autor = res.data;
           });
@@ -175,8 +192,8 @@ export default {
         descripcion: order.purchase_units[0].description,
         precio: order.purchase_units[0].amount.value,
         nombre: order.purchase_units[0].shipping.name.full_name,
-        direccion: direccionString
-      }
+        direccion: direccionString,
+      };
 
       axios
         .post("http://localhost:8080/api/recibo/", reciboData)
@@ -188,13 +205,13 @@ export default {
         });
     },
 
-    addVenta(){
+    addVenta() {
       const ventaData = {
-        nombreproducto: this.data.nombre,
-        precio: this.data.precio,
-        idautor: this.data.idautor,
-        idcategoria: this.data.idcategoria
-      }
+        nombreproducto: this.producto.nombre,
+        precio: this.producto.precio,
+        idautor: this.producto.idautor,
+        idcategoria: this.producto.idcategoria,
+      };
       axios
         .post("http://localhost:8080/api/venta/", ventaData)
         .then((response) => {
@@ -204,18 +221,12 @@ export default {
           console.error("Error al guardar la venta:", error);
         });
     },
-
-    goToStore() {
-      this.$router.push("/store");
-    },
+    
   },
 
   created() {
-    this.data = JSON.parse(this.$route.params.producto);
-    this.getAutor();
-    if (this.data.stock == 0) {
-      this.disabled = true;
-    }
+    this.idproducto = this.$route.params.id;
+    this.getProducto();
   },
 
   mounted() {

@@ -58,7 +58,7 @@ const routes = [
     
   },
   {
-    path: "/producto-vista/:producto",
+    path: "/producto-vista/:id",
     name: "producto-vista",
     component: ProductoVista,
     meta: {
