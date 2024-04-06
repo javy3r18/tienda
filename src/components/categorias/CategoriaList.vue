@@ -29,11 +29,11 @@
           </thead>
           <tbody>
             <tr v-for="c in categorias" :key="c.id">
-              <td class="p-3 text-small text-gray-700">{{ c.id }}</td>
-              <td class="p-3 text-small text-gray-700">{{ c.categoria }}</td>
-              <td class="p-3 text-small text-gray-700">
-                <button @click="modalUpdateOpen(c)">Editar</button>
-                <button @click="deleteCategoria(c.id)">Eliminar</button>
+              <td class="border-b border-slate-200  p-4 text-slate-500">{{ c.id }}</td>
+              <td class="border-b border-slate-200  p-4 text-slate-500">{{ c.categoria }}</td>
+              <td class="border-b border-slate-200  p-4 text-slate-500">
+                <button class="mx-2 bg-transparent hover:bg-yellow-400 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded" @click="modalUpdateOpen(c)">Editar</button>
+                <button class="mx-2 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" @click="deleteCategoria(c.id)">Eliminar</button>
               </td>
             </tr>
           </tbody>

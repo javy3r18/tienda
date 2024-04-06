@@ -35,13 +35,13 @@
             </thead>
             <tbody>
               <tr v-for="a in autores" :key="a.id">
-                <td class="p-3 text-small text-gray-700">{{ a.id }}</td>
-                <td class="p-3 text-small text-gray-700">{{ a.autor }}</td>
-                <td class="p-3 text-small text-gray-700">{{ a.nacionalidad }}</td>
-                <td class="p-3 text-small text-gray-700">{{ a.correo }}</td>
-                <td class="p-3 text-small text-gray-700">
-                  <button @click="modalUpdateOpen(a)">Editar</button>
-                  <button @click="deleteAutor(a.id)">Eliminar</button>
+                <td class="border-b border-slate-200  p-4 text-slate-500">{{ a.id }}</td>
+                <td class="border-b border-slate-200  p-4 text-slate-500">{{ a.autor }}</td>
+                <td class="border-b border-slate-200  p-4 text-slate-500">{{ a.nacionalidad }}</td>
+                <td class="border-b border-slate-200  p-4 text-slate-500">{{ a.correo }}</td>
+                <td class="border-b border-slate-200  p-4 text-slate-500">
+                  <button class="mx-2 bg-transparent hover:bg-yellow-400 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded" @click="modalUpdateOpen(a)">Editar</button>
+                  <button class="mx-2 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" @click="deleteAutor(a.id)">Eliminar</button>
                 </td>
               </tr>
             </tbody>

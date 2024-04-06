@@ -1,8 +1,8 @@
 <template>
-  <div class="overflow-hidden w-full flex justify-center">
+  <div class="overflow-hidden w-full max-h-vh flex justify-center">
     <div class="w-full max-w-7xl mx-20 flex justify-center">
       <div class="w-1/2 max-h-screen">
-        <section class=" py-32 bg-white flex flex-col justify-center">
+        <section class=" py-20 bg-white flex flex-col justify-center">
           <div class="grid grid-cols-2 gap-10 max-w-6xl mx-auto">
             <div class="flex justify-end">
               <img

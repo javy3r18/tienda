@@ -26,16 +26,5 @@ const firebaseConfig = {
 // Initialize Firebase
 initializeApp(firebaseConfig);
 
-// const db = getFirestore()
-
-// const colRef = collection(db, 'usuarios')
-
-// getDocs(colRef)
-// .then((snapshot)=>{
-//   let adminData = snapshot.docs[0].data()
-//   console.log(adminData);
-// })
 
 createApp(App).use(store).use(router).mount('#app')
-
-// export {db, colRef, adminData}

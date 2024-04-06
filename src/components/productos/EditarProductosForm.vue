@@ -44,15 +44,16 @@
                         Editar producto:
                       </h3>
                       <div class="mt-2 w-full justify-center">
-                        <form class="flex flex-col">
+                        <form id="EditarProductoForm" @submit.prevent="submitForm" class="flex flex-col">
                           <label
                             for="nombre"
                             class="block text-sm font-medium leading-6 text-gray-900"
                             >Nombre del producto:</label
                           >
                           <input
+                            required
                             v-model="form.nombre"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            class="px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             type="text"
                             name="nombre"
                             id="nombre"
@@ -63,8 +64,9 @@
                             >Descripcion del producto:</label
                           >
                           <input
+                            required
                             v-model="form.descripcion"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            class="px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             type="text"
                             name="descripcion"
                             id="descripcion"
@@ -75,8 +77,9 @@
                             >Precio:</label
                           >
                           <input
+                            required
                             v-model="form.precio"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            class="px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             type="number"
                             step="0.01"
                             name="precio"
@@ -88,8 +91,9 @@
                             >Stock:</label
                           >
                           <input
+                            required
                             v-model="form.stock"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            class="px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             type="number"
                             name="stock"
                             id="stock"
@@ -97,33 +101,48 @@
                           <label
                             for="idautor"
                             class="block text-sm font-medium leading-6 text-gray-900"
-                            >Id de autor:</label
-                          >
-                          <input
+                            >Autor:
+                          </label>
+                          <select
+                          required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             v-model="form.idautor"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            type="number"
-                            name="idmarca"
-                            id="idmarca"
-                          />
+                            name="idautor"
+                          >
+                            <option
+                              v-for="a in autores"
+                              :key="a.id"
+                              :value="a.id"
+                            >
+                              {{ a.autor }}
+                            </option>
+                          </select>
                           <label
                             for="idcategoria"
                             class="block text-sm font-medium leading-6 text-gray-900"
-                            >Id de categoria:</label
+                            >Categoria:</label
                           >
-                          <input
+                          <select
+                          required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             v-model="form.idcategoria"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            type="number"
-                            name="idmarca"
-                            id="idmarca"
-                          />
+                            name="idcategoria"
+                          >
+                            <option
+                              v-for="c in categorias"
+                              :key="c.id"
+                              :value="c.id"
+                            >
+                              {{ c.categoria }}
+                            </option>
+                          </select>
                           <label
                             for="image"
                             class="block text-sm font-medium leading-6 text-gray-900"
                             >Imagen:</label
                           >
                           <input
+                            required
                             @change="onFileChange"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer bg-gray-50 focus:outline-none"
                             type="file"
@@ -139,8 +158,8 @@
                   class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
                 >
                   <button
-                    @click="submitForm"
-                    type="button"
+                    form="EdiarProductoForm"
+                    type="submit"
                     class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
                   >
                     Editar producto
@@ -183,6 +202,10 @@ export default {
         image: null,
       },
     };
+  },
+
+  created() {
+    this.getAutoresAndCategorias();
   },
 
   watch: {
@@ -237,6 +260,26 @@ export default {
         .catch((error) => {
           console.error("Error al guardar el producto:", error);
           // Manejar el error, por ejemplo, mostrar un mensaje al usuario
+        });
+    },
+
+    getAutoresAndCategorias() {
+      axios
+        .get("http://localhost:8080/api/getCategorias")
+        .then((response) => {
+          this.categorias = response.data;
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error");
+        });
+
+      axios
+        .get("http://localhost:8080/api/getAutores")
+        .then((response) => {
+          this.autores = response.data;
+        })
+        .catch((error) => {
+          console.error("Ocurrio un error");
         });
     },
   },

@@ -13,7 +13,7 @@
         </button>
       </div>
       <div class="max-w-7xl mb-10">
-        <table class="w-full">
+        <table class="table-auto w-full">
           <thead class="bg-gray-50 border-b-2 border-gray-200">
             <tr>
               <th class="p-3 text-sm font-semibold tracking-wide text-left">
@@ -50,24 +50,24 @@
           </thead>
           <tbody>
             <tr v-for="p in productos" :key="p.id">
-              <td class="p-3 text-small text-gray-700">{{ p.id }}</td>
-              <td class="p-3 text-small text-gray-700">{{ p.nombre }}</td>
-              <td class="p-3 text-small text-gray-700">{{ p.descripcion }}</td>
-              <td class="p-3 text-small text-gray-700">$ {{ p.precio }}</td>
-              <td class="p-3 text-small text-gray-700">{{ p.stock }}</td>
-              <td class="p-3 text-small text-gray-700">{{ p.idautor }}</td>
-              <td class="p-3 text-small text-gray-700">{{ p.idcategoria }}</td>
-              <td class="p-3 text-small text-gray-700">{{ p.image }}</td>
-              <td class="p-3 text-small text-gray-700">
+              <td class="border-b border-slate-200  p-4 text-slate-500 ">{{ p.id }}</td>
+              <td class="border-b border-slate-200  p-4 text-slate-500 ">{{ p.nombre }}</td>
+              <td class="border-b border-slate-200  p-4 text-slate-500 ">{{ p.descripcion }}</td>
+              <td class="border-b border-slate-200  p-4 text-slate-500 ">$ {{ p.precio }}</td>
+              <td class="border-b border-slate-200  p-4 text-slate-500 ">{{ p.stock }}</td>
+              <td class="border-b border-slate-200  p-4 text-slate-500 ">{{ p.idautor }}</td>
+              <td class="border-b border-slate-200  p-4 text-slate-500 ">{{ p.idcategoria }}</td>
+              <td class="border-b border-slate-200  p-4 text-slate-500 ">{{ p.image }}</td>
+              <td class="border-b border-slate-200  p-4 text-slate-500 ">
                 <img
                   class="w-32"
                   :src="`http://localhost:8080/` + p.image"
                   alt=""
                 />
               </td>
-              <td class="p-3 text-small text-gray-700">
-                <button @click="modalUpdateOpen(p)">Editar</button>
-                <button @click="deleteProducto(p.id)">Eliminar</button>
+              <td class="border-b border-slate-200  p-4 text-slate-500">
+                <button class="mx-2 my-1 bg-transparent hover:bg-yellow-400 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded" @click="modalUpdateOpen(p)">Editar</button>
+                <button class="mx-2 my-1 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" @click="deleteProducto(p.id)">Eliminar</button>
               </td>
             </tr>
           </tbody>
