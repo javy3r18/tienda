@@ -43,8 +43,8 @@ export default {
   methods: {
     getProductos() {
       try {
-        axios.get("http://localhost:8080/api/getProductos/").then((res) => {
-          this.productos = res.data;
+        axios.get("http://localhost:8080/api/getProductos/?limit=12").then((res) => {
+          this.productos = res.data.productos;
           console.log(res);
         });
       } catch (error) {

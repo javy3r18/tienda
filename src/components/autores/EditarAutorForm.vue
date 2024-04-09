@@ -44,13 +44,14 @@
                           Editar autor:
                         </h3>
                         <div class="mt-2 w-full justify-center">
-                            <form class="flex flex-col">
+                            <form id="EditarAutorForm" @submit.prevent="submitForm" class="flex flex-col">
                             <label
                               for="autor"
                               class="block text-sm font-medium leading-6 text-gray-900"
                               >Nombre del autor:</label
                             >
                             <input
+                            required
                               v-model="form.autor"
                               class="px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               type="text"
@@ -63,6 +64,7 @@
                               >Nacionalidad:</label
                             >
                             <input
+                            required
                               v-model="form.nacionalidad"
                               class="px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               type="text"
@@ -75,6 +77,7 @@
                               >Correo:</label
                             >
                             <input
+                            required
                               v-model="form.correo"
                               class="px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               type="text"
@@ -90,8 +93,8 @@
                     class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
                   >
                     <button
-                      @click="submitForm"
-                      type="button"
+                      form="EditarAutorForm"
+                      type="submit"
                       class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
                     >
                       Editar autor

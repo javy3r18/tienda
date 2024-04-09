@@ -27,7 +27,7 @@
       getVentas() {
         try {
           axios.get("http://localhost:8080/api/getVentas/").then((res) => {
-            this.ventas = res.data;
+            this.ventas = res.data.ventas;
             this.getCategorias()
           });
         } catch (error) {

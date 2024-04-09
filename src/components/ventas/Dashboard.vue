@@ -3,6 +3,7 @@
     <VentasPorMes></VentasPorMes>
     <VentasPorCategoria></VentasPorCategoria>
     <VentasPorAutor></VentasPorAutor>
+    <Ventas></Ventas>
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 import VentasPorMes from './VentasPorMes.vue'
 import VentasPorCategoria from './VentasPorCategoria.vue'
 import VentasPorAutor from './VentasPorAutor.vue'
+import Ventas from './Ventas.vue'
 
 export default {
   data() {
@@ -21,7 +23,8 @@ export default {
   components: {
     VentasPorMes,
     VentasPorCategoria,
-    VentasPorAutor
+    VentasPorAutor,
+    Ventas
   }
 
   

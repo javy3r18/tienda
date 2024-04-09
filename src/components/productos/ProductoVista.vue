@@ -157,7 +157,7 @@ export default {
     getProducto() {
       try {
         axios
-          .get(`http://localhost:8080/api/getProductos/${this.idproducto}`)
+          .get(`http://localhost:8080/api/getProductosId/${this.idproducto}`)
           .then((res) => {
             this.producto = res.data
             console.log(this.producto);

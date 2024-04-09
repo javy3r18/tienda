@@ -26,7 +26,7 @@ export default {
     getRecibos() {
       try {
         axios.get("http://localhost:8080/api/getRecibos/").then((res) => {
-          this.recibos = res.data;
+          this.recibos = res.data.recibos;
           this.getVentasMes();
         });
       } catch (error) {

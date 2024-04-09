@@ -3,7 +3,7 @@
     <h2 class="block text-center mb-4">Lista de productos</h2>
 
     <div class="w-full flex justify-center items-center flex-col">
-      <div class="mb-4">
+      <div class="mb-4 flex flex-col justify-center items-center">
         <button
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           type="button"
@@ -11,6 +11,7 @@
         >
           Crear producto
         </button>
+        <Paginacion :totalPages="totalPages" :currentPage="currentPage" @cambio-pagina="cambiarPagina"></Paginacion>
       </div>
       <div class="max-w-7xl mb-10">
         <table class="table-auto w-full">
@@ -72,7 +73,9 @@
             </tr>
           </tbody>
         </table>
+        <Paginacion :totalPages="totalPages" :currentPage="currentPage" @cambio-pagina="cambiarPagina"></Paginacion>
       </div>
+      
     </div>
 
     <CrearProductos :modal="modalCreate" @clicked="modalClose" @updateTable="loadTable"></CrearProductos>
@@ -84,12 +87,15 @@
 import axios from "axios";
 import CrearProductos from "./CrearProductosForm.vue";
 import EditarProductos from './EditarProductosForm.vue'
+import Paginacion from '../Paginacion.vue';
 
 export default {
   data() {
     return {
       modalCreate: false,
       modalUpdate: false,
+      currentPage: null,
+      totalPages: null,
       beforeUpdateData: {},
       productos: [],
     };
@@ -98,13 +104,16 @@ export default {
   components: {
     CrearProductos,
     EditarProductos,
+    Paginacion,
   },
 
   methods: {
     loadTable() {
       try {
-        axios.get("http://localhost:8080/api/getProductos/").then((res) => {
-          this.productos = res.data;
+        axios.get(`http://localhost:8080/api/getProductos/${this.currentPage}/?limit=5`).then((res) => {
+          this.productos = res.data.productos;
+          this.currentPage = res.data.currentPage
+          this.totalPages = res.data.totalPages
         });
       } catch (error) {
         console.error(error);
@@ -138,7 +147,14 @@ export default {
         console.error(error);
       }
       }
-    }
+    },
+
+    cambiarPagina(nuevaPagina) {
+      // Actualizar la página actual con la nueva página
+      this.currentPage = nuevaPagina;
+      // Llamar a una función para cargar datos de la nueva página
+      this.loadTable();
+    },
   },
 
   mounted() {

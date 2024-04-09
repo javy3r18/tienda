@@ -142,7 +142,6 @@
                             >Imagen:</label
                           >
                           <input
-                            required
                             @change="onFileChange"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer bg-gray-50 focus:outline-none"
                             type="file"
@@ -158,7 +157,7 @@
                   class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
                 >
                   <button
-                    form="EdiarProductoForm"
+                    form="EditarProductoForm"
                     type="submit"
                     class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
                   >
