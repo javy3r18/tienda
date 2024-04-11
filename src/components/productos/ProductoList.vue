@@ -94,8 +94,8 @@ export default {
     return {
       modalCreate: false,
       modalUpdate: false,
-      currentPage: null,
-      totalPages: null,
+      currentPage: 0,
+      totalPages: 0,
       beforeUpdateData: {},
       productos: [],
     };

@@ -1,8 +1,11 @@
 <template>
   <div>
     <VentasPorMes></VentasPorMes>
+    <hr>
     <VentasPorCategoria></VentasPorCategoria>
+    <hr>
     <VentasPorAutor></VentasPorAutor>
+    <hr>
     <Ventas></Ventas>
   </div>
 </template>

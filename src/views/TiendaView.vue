@@ -3,7 +3,7 @@
     <div
       class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"
     >
-      <h2 class="sr-only">Products</h2>
+      <h2 class="block my-8 text-center text-2xl">Todos los productos</h2>
 
       <div
         class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
@@ -25,26 +25,37 @@
           </a>
         </div>
       </div>
+
+      <Paginacion :totalPages="totalPages" :currentPage="currentPage" @cambio-pagina="cambiarPagina"></Paginacion>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Paginacion from "@/components/Paginacion.vue";
 
 export default {
   data() {
     return {
       idcategoria: null,
       productos: [],
+      currentPage: 1,
+      totalPages: 1,
     };
+  },
+
+  components: {
+    Paginacion
   },
 
   methods: {
     getProductos() {
       try {
-        axios.get("http://localhost:8080/api/getProductos/?limit=12").then((res) => {
+        axios.get(`http://localhost:8080/api/getProductos/${this.currentPage}/?limit=12`).then((res) => {
           this.productos = res.data.productos;
+          this.currentPage = res.data.currentPage
+          this.totalPages = res.data.totalPages
           console.log(res);
         });
       } catch (error) {
@@ -52,10 +63,12 @@ export default {
       }
     },
 
-    getProductosPorCategoria(idcategoria) {
+    getProductosPorCategoria() {
       try {
-        axios.get(`http://localhost:8080/api/getProductos/categoria/${idcategoria}`).then((res) => {
-          this.productos = res.data;
+        axios.get(`http://localhost:8080/api/getProductos/categoria/${this.idcategoria}/${this.currentPage}/12`).then((res) => {
+          this.productos = res.data.productos;
+          this.currentPage = res.data.currentPage
+          this.totalPages = res.data.totalPages
           console.log(res);
         });
       } catch (error) {
@@ -65,14 +78,23 @@ export default {
 
     showProducto(idproducto){
       this.$router.push({ name: 'producto-vista', params: { id: idproducto } });
-    }
+    },
+
+    cambiarPagina(nuevaPagina) {
+      this.currentPage = nuevaPagina;
+      if(this.idcategoria){
+      this.getProductosPorCategoria()
+      }else{
+        this.getProductos()
+      }
+    },
+
   },
 
   mounted() {
-    const idcategoria = this.$route.params.id
-    console.log(idcategoria);
-    if(idcategoria){
-      this.getProductosPorCategoria(idcategoria)
+    this.idcategoria = this.$route.params.id
+    if(this.idcategoria){
+      this.getProductosPorCategoria()
     }else{
       this.getProductos();
     }

@@ -62,8 +62,8 @@ export default {
   data() {
     return {
       recibos: {},
-      currentPage: null,
-      totalPages: null,
+      currentPage: 0,
+      totalPages: 0,
     };
   },
 
