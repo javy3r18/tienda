@@ -1,8 +1,8 @@
 <template>
-  <div class="overflow-x-hidden">
+  <div class="overflow-x-hidden min-h-screen relative">
     <Navbar v-if="showNavbar" />
-    <router-view />
-    <Footer v-if="showFooter" />
+    <router-view class="mb-auto" />
+    <Footer v-if="showFooter" class="absolute bottom-0 w-full" />
   </div>
 </template>
 

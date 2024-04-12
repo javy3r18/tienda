@@ -1,14 +1,13 @@
 <template>
-  <div>
+  <div class="h-screen flex justify-center items-center">
     <section class="py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2">
-          <div class="slider-box w-full h-full max-lg:mx-auto mx-0">
-            <div class="main-img mb-3 min-[400px]:mb-8">
+          <div class="slider-box w-full h-full max-lg:mx-auto mx-0 flex justify-center bg-gray-200 ">
+            <div class="main-img mb-3 min-w-[550px] max-w-[550px] min-h-[600px] max-h-[600px]">
               <img
                 :src="`http://localhost:8080/` + this.producto.image"
-                alt="Summer Travel Bag image"
-                class="max-lg:mx-auto"
+                class="w-full h-full object-contain"
               />
             </div>
           </div>
@@ -23,15 +22,21 @@
                   >
                     {{ this.producto.nombre }}
                   </h2>
-                  <p class="font-normal text-base text-gray-500">
+                  <hr>
+                  <p class="my-5 font-normal text-base text-gray-500">
                     {{ this.producto.descripcion }}
                   </p>
-                  <p class="mt-4 font-normal text-lg">
+                  <hr>
+                  <div class="my-5">
+                    <p class="font-normal text-lg">
                     <b>Autor: </b>{{ this.autor.autor }}
                   </p>
-                  <p class="mt-4 font-normal text-lg">
+
+                  <p class="font-normal text-lg">
                     <b>En stock: </b>{{ this.producto.stock }}
                   </p>
+                  </div>
+                  <hr>
                 </div>
               </div>
 
@@ -113,7 +118,7 @@ export default {
             return actions.order.create({
               purchase_units: [
                 {
-                  description: this.producto.descripcion,
+                  description: 'Producto comprado en V-ART eshop: '+ this.producto.nombre,
                   amount: {
                     value: this.producto.precio,
                   },

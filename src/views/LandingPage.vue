@@ -1,8 +1,10 @@
 <template>
+  
   <div class="overflow-hidden w-full max-h-vh flex justify-center">
+    <NavbarLanding></NavbarLanding>
     <div class="w-full max-w-7xl mx-20 flex justify-center">
-      <div class="w-1/2 max-h-screen">
-        <section class=" py-20 bg-white flex flex-col justify-center">
+      <div class="w-1/2 max-h-screen z-20">
+        <section class=" py-20 flex flex-col justify-center">
           <div class="grid grid-cols-2 gap-10 max-w-6xl mx-auto">
             <div class="flex justify-end">
               <img
@@ -41,20 +43,26 @@
           </div>
         </section>
       </div>
-      <div class="w-1/2 max-h-screen">
-        <RegisterView></RegisterView>
+      <div class="w-1/2 max-h-screen z-20">
+        <Register></Register>
       </div>
+      <div class="z-0 w-full h-screen fixed bg-[url('../assets/bg.jpg')] bg-cover ">
+    </div>
+    <div class="z-10 w-full h-screen bg-sky-950 fixed opacity-80">
+    </div>
     </div>
   </div>
 </template>
 
 
 <script>
-import RegisterView from "./RegisterView.vue";
+import Register from "@/components/RegisterLanding.vue";
+import NavbarLanding from '@/components/NavbarLanding.vue'
 
 export default{
   components: {
-    RegisterView
+    Register,
+    NavbarLanding
   }
 }
 </script>

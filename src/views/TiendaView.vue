@@ -3,7 +3,7 @@
     <div
       class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"
     >
-      <h2 class="block my-8 text-center text-2xl">Todos los productos</h2>
+      <h2 class="block my-6 text-center font-bold tracking-tight text-3xl">Todos los productos</h2>
 
       <div
         class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
@@ -11,7 +11,7 @@
         <div v-for="producto in productos" :key="producto.id">
           <a  @click="showProducto(producto.id)" class="hover:cursor-pointer group">
             <div
-              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+              class="border-2 border-zinc-50 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100 xl:aspect-h-8 xl:aspect-w-7 flex justify-center"
             >
               <img
                 :src="`http://localhost:8080/` + producto.image"

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mt-44 flex min-h-full flex-1 flex-col  px-6  lg:px-8"
+    class="mt-44 flex min-h-full flex-1 flex-col px-6 lg:px-8"
   >
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img

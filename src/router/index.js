@@ -31,6 +31,7 @@ const routes = [
     component: LandingPage,
     meta: {
       showFooter: false,
+      showNavbar: false,
     },
   },
   {
@@ -63,7 +64,7 @@ const routes = [
     component: ProductoVista,
     meta: {
       showNavbar: true,
-      showFooter: true,
+      showFooter: false,
     },
   },
   {
