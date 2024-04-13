@@ -86,9 +86,7 @@ export default {
     },
 
     cambiarPagina(nuevaPagina) {
-      // Actualizar la página actual con la nueva página
       this.currentPage = nuevaPagina;
-      // Llamar a una función para cargar datos de la nueva página
       this.loadTable();
     },
   },

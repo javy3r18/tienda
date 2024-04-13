@@ -51,7 +51,7 @@
                   </h5>
                 </div>
               </div>
-              <div v-if="!paidFor">
+              <div v-if="!paidFor && !paidError">
                 <button
                   :disabled="disabled"
                   @click="toggleCollapse"
@@ -85,6 +85,13 @@
                   ¡Pago realizado con exito!
                 </h2>
               </div>
+              <div v-if="paidError">
+                <h2
+                  class="font-manrope font-semibold text-2xl leading-9 text-red-600"
+                >
+                  ¡Ha ocurrido un error!
+                </h2>
+              </div>
             </div>
           </div>
         </div>
@@ -104,6 +111,7 @@ export default {
       autor: {},
       collapsed: true,
       paidFor: false,
+      paidError: false,
       disabled: false,
     };
   },
@@ -136,6 +144,7 @@ export default {
             console.log(order);
           },
           onError: (err) => {
+            this.paidError = true;
             console.log(err);
           },
         })

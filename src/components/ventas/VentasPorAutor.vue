@@ -51,35 +51,34 @@
   
       getVentasAutor() {
         
-        // Iterar sobre las ventas y contar las ventas por categoría
+        // Iterar sobre las ventas y contar las ventas por autor
         this.ventas.forEach((venta) => {
           const autor = this.autores.find(
             (a) => a.id === venta.idautor
           );
+          
           if (autor) {
             const nombreAutor = autor.autor;
             if (this.conteoVentasPorAutor[nombreAutor]) {
-              // Si la categoría ya existe en el objeto, incrementa el contador
+              // Si la autor ya existe en el objeto, incrementa el contador
              this.conteoVentasPorAutor[nombreAutor]++;
             } else {
-              // Si la categoría no existe en el objeto, inicializa el contador en 1
+              // Si la autor no existe en el objeto, inicializa el contador en 1
               this.conteoVentasPorAutor[nombreAutor] = 1;
             }
           }
-
+          
         });
-
         this.showChart()
   
-        // Mostrar el conteo de ventas por categoría
       },
   
       showChart() {
-        // Extraer las etiquetas (nombres de categoría) y los datos (número de ventas) del objeto ventasPorAutor
+
         const etiquetas = Object.keys(this.conteoVentasPorAutor);
         const datos = Object.values(this.conteoVentasPorAutor);
   
-        // Configurar el gráfico de barras con Chart.js
+        // Configurar el grafico de barras con Chart.js
         const ctx = document.getElementById("graficoBarrasAutor").getContext("2d");
         new Chart(ctx, {
           type: "bar",
@@ -99,6 +98,10 @@
             scales: {
               y: {
                 beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Unidades vendidas'
+                }
               },
             },
           },

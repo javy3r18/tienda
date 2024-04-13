@@ -1,7 +1,7 @@
 <template>
   <div class="mt-10 bg-white">
     <div
-      class="w-full bg-slate-100 py-24 px-6 text-center dark:bg-neutral-900"
+      class="w-full bg-slate-100 py-24 px-6 text-center "
     >
       <h1
         class="mt-2 mb-16 text-5xl font-bold tracking-tight md:text-6xl xl:text-7xl"
@@ -65,7 +65,7 @@ export default {
           name: "Arte Digital",
           description: "Esto es arte digital",
           imageSrc:
-            "https://www.artel.cl/wp-content/uploads/2023/06/portada-el-arte-digital-una-ventana.jpg",
+            "http://www.vaniapalomo.com.br/uploads/curso/20240229092925vaniaque-es-el-arte-digital-1.jpg",
 
           id: 1,
         },

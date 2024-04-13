@@ -56,10 +56,10 @@
           if (categoria) {
             const nombreCategoria = categoria.categoria;
             if (this.conteoVentasPorCategoria[nombreCategoria]) {
-              // Si la categoría ya existe en el objeto, incrementa el contador
+              // Si la categoria ya existe en el objeto, incrementa el contador
               this.conteoVentasPorCategoria[nombreCategoria]++;
             } else {
-              // Si la categoría no existe en el objeto, inicializa el contador en 1
+              // Si la categoria no existe en el objeto, inicializa el contador en 1
               this.conteoVentasPorCategoria[nombreCategoria] = 1;
             }
           }
@@ -70,11 +70,11 @@
       },
   
       showChart() {
-        // Extraer las etiquetas (nombres de categoría) y los datos (número de ventas) del objeto ventasPorCategoria
+  
         const etiquetas = Object.keys(this.conteoVentasPorCategoria);
         const datos = Object.values(this.conteoVentasPorCategoria);
   
-        // Configurar el gráfico de barras con Chart.js
+        // Configurar el grafico de barras con Chart.js
         const ctx = document.getElementById("graficoBarrasCategoria").getContext("2d");
         new Chart(ctx, {
           type: "bar",
@@ -94,6 +94,10 @@
             scales: {
               y: {
                 beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Unidades vendidas'
+                }
               },
             },
           },

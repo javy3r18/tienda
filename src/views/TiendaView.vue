@@ -20,7 +20,7 @@
             </div>
             <h3 class="mt-4 text-sm text-gray-700">{{ producto.nombre }}</h3>
             <p class="mt-1 text-lg font-medium text-gray-900">
-              $ {{ producto.precio }}
+              $ {{ producto.precio }} MXN
             </p>
           </a>
         </div>

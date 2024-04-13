@@ -63,6 +63,7 @@ const routes = [
     name: "producto-vista",
     component: ProductoVista,
     meta: {
+      requiresAuth: true,
       showNavbar: true,
       showFooter: false,
     },

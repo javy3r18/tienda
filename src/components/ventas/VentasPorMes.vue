@@ -37,13 +37,12 @@ export default {
     getVentasMes() {
       const ventasPorMes = {};
 
-      // Iterar sobre las ventas y contar las ventas por categoría
+
       this.recibos.forEach((recibo) => {
         const fechaVenta = new Date(recibo.fecha);
         const añoVenta = fechaVenta.getFullYear();
-        const mesVenta = fechaVenta.getMonth() + 1; // Obtener el número de mes (enero es 0, febrero es 1, etc.)
-
-        const claveMes = `${añoVenta}-${mesVenta.toString().padStart(2, "0")}`; // Formar una clave para identificar el mes (por ejemplo, "2024-01" para enero de 2024)
+        const mesVenta = fechaVenta.getMonth() + 1; // Obtener el número de mes 
+        const claveMes = `${añoVenta}-${mesVenta.toString().padStart(2, "0")}`; // Formar una clave para identificar el mes
         if (ventasPorMes[claveMes]) {
           // Si el mes ya existe en el objeto, incrementa el contador
           ventasPorMes[claveMes]++;
@@ -103,6 +102,10 @@ export default {
           scales: {
             y: {
               beginAtZero: true,
+              title: {
+                    display: true,
+                    text: 'Unidades vendidas'
+                }
             },
           },
         },
